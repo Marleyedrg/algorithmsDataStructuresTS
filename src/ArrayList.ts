@@ -1,23 +1,44 @@
 import FixedArr from "./FixedArray";
 import TypeItem from "./TypeItem";
-export default class ArrayList<T> extends FixedArr<T> {
+/**
+*
+*Receive a fixed array ->  object from "FixedArray" class 
+*
+*/
+export default class ArrayList<T> {
+  public readonly typeEls: string;
+  private initArray: FixedArr<T>;
+  public literalArr: T[];
+  public length: number;
 
-  override maxSize: number = this.length;
-  //apenas ignora maxSize para continuar funcionando como herdado de FixedArr
+  constructor(array: FixedArr<T>) {
 
-  public add(value: T): void {
-    let itemType = TypeItem.getType(value);
+    this.initArray = array;
+    this.literalArr = array.get();
 
-    if (itemType !== this.arrType) {
-      throw new Error(
-        `Type mismatch at value ${value}: expected '${this.arrType}', got '${itemType}'`
-      );
-    }
-    const newArray = new FixedArr<T>([...(this.get()), value]);
+    this.length = array.length;
 
-    this.items = newArray.get();
-
-    this.length = this.items.length;
-    this.maxSize = this.length;
+    this.typeEls = array.arrType;
   }
+
+  add(el: T): T[] {
+    if (TypeItem.getType(el) !== this.typeEls) {
+      throw new Error(`receive ${TypeItem.getType(el)} but the array list has type ${this.typeEls}`);
+    }
+
+    this.literalArr[this.length] = el;
+
+    return this.literalArr;
+  }
+
+  // addAtStart(el: T): T[] {
+
+  //   if (TypeItem.getType(el) !== this.typeEls) {
+  //     throw new Error(`receive ${TypeItem.getType(el)} but the array list has type ${this.typeEls}`);
+  //   }
+
+  //   this.literalArr[0]
+
+  //   return this.literalArr;
+  // }
 }
