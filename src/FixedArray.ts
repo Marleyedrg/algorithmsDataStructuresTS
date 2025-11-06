@@ -15,7 +15,7 @@ export default class FixedArr<T> {
   *readonly
   *array type defined in constructor
   */
-  protected readonly arrType: string;
+  public readonly arrType: string;
 
 
   constructor(items: T[], size?: number, arrType?: string) {
