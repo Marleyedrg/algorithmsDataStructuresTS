@@ -1,5 +1,14 @@
-import FixedNumberArray from "./FixedNumberArray"
+import FixedArr from "./FixedArray";
+import ArrayList from "./ArrayList";
 
-let arr: Int32Array = FixedNumberArray(4, [1, 2, 3, 4, 5]);
+let arr: FixedArr<number> = new FixedArr([1, 2, 3]);
 
-console.log(arr);
+console.log(arr.get());
+
+let list: ArrayList<number> = new ArrayList(arr);
+
+console.log(list.literalArr);
+
+list.add(2);
+
+console.log(list.literalArr);
