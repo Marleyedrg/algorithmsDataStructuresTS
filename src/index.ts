@@ -1,12 +1,9 @@
-import ArrayList from "./ArrayList";
-import FixedArr from "./FixedArray";
+import DoublyList from "./DoublyList";
 
+let list: DoublyList<number> = new DoublyList(1);
 
-const fixed: FixedArr<number> = new FixedArr([1,2]);
+list.addAtStart(0)
+list.addAtEnd(2)
 
-let arrlist: ArrayList<number> = new ArrayList(fixed);
+console.log(list.head.next?.next?.next?.data)
 
-arrlist.add(3);
-arrlist.add(4);
-
-console.log(arrlist.get(
