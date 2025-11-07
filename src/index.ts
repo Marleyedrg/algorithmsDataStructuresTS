@@ -1,14 +1,12 @@
-import FixedArr from "./FixedArray";
 import ArrayList from "./ArrayList";
+import FixedArr from "./FixedArray";
 
-let arr: FixedArr<number> = new FixedArr([1, 2, 3]);
 
-console.log(arr.get());
+const fixed: FixedArr<number> = new FixedArr([1,2]);
 
-let list: ArrayList<number> = new ArrayList(arr);
+let arrlist: ArrayList<number> = new ArrayList(fixed);
 
-console.log(list.literalArr);
+arrlist.add(3);
+arrlist.add(4);
 
-list.add(2);
-
-console.log(list.literalArr);
+console.log(arrlist.get())

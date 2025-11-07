@@ -1,44 +1,57 @@
 import FixedArr from "./FixedArray";
 import TypeItem from "./TypeItem";
-/**
-*
-*Receive a fixed array ->  object from "FixedArray" class 
-*
-*/
+import fixIndex from "./fixIndex";
+
 export default class ArrayList<T> {
-  public readonly typeEls: string;
-  private initArray: FixedArr<T>;
-  public literalArr: T[];
+  private currArray: FixedArr<T>;
+
   public length: number;
 
+  public readonly arrType: string;
+
+  private items: T[];
+
   constructor(array: FixedArr<T>) {
+    this.currArray = array;
 
-    this.initArray = array;
-    this.literalArr = array.get();
+    this.arrType = array.arrType;
 
-    this.length = array.length;
+    this.length = this.currArray.length;
 
-    this.typeEls = array.arrType;
+    this.items = this.currArray.get();
   }
 
-  add(el: T): T[] {
-    if (TypeItem.getType(el) !== this.typeEls) {
-      throw new Error(`receive ${TypeItem.getType(el)} but the array list has type ${this.typeEls}`);
+  add(value: T) {
+    if (TypeItem.getType(value) != this.arrType) {
+      throw new Error(`the array type is ${this.arrType}, receive ${TypeItem.getType(value)}`)
+    };
+
+    const newArray = this.currArray.get();
+
+    this.currArray = new FixedArr([...newArray, value]);
+
+    this.items = this.currArray.get();
+  }
+
+
+  public get(): T[];//type Overload
+  public get(index: number): T;
+  public get(index?: number): T | T[] {
+
+    if (index !== undefined) {
+
+      if (index > this.length - 1) {
+        throw new Error("Array max size exceeded!");
+      }
+
+      index = fixIndex(index, this.length);
+
+      return this.items[index];
     }
-
-    this.literalArr[this.length] = el;
-
-    return this.literalArr;
+    if (this.length == 0) {
+      console.log(`empty ${this.arrType}`)
+    }
+    return [...this.items];
   }
 
-  // addAtStart(el: T): T[] {
-
-  //   if (TypeItem.getType(el) !== this.typeEls) {
-  //     throw new Error(`receive ${TypeItem.getType(el)} but the array list has type ${this.typeEls}`);
-  //   }
-
-  //   this.literalArr[0]
-
-  //   return this.literalArr;
-  // }
 }
