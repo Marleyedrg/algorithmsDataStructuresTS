@@ -9,4 +9,4 @@ let arrlist: ArrayList<number> = new ArrayList(fixed);
 arrlist.add(3);
 arrlist.add(4);
 
-console.log(arrlist.get())
+console.log(arrlist.get(

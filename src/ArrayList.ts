@@ -33,8 +33,12 @@ export default class ArrayList<T> {
     this.items = this.currArray.get();
   }
 
-
-  public get(): T[];//type Overload
+  /**
+  *
+  *Get by index
+  *
+  */
+  public get(): T[];//type overload
   public get(index: number): T;
   public get(index?: number): T | T[] {
 
