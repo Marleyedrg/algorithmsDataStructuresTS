@@ -1,47 +1,59 @@
 interface Node<T> {
+  prev: Node<T> | null,
   data: T,
   next: Node<T> | null
 }
 
-export default class List<T> {
-  head: Node<T>;
-  tail: Node<T>;
+export default class LinkedList<T> {
+  public head: Node<T>;
+  public tail: Node<T>;
 
-  /**
-  *pass a value to be setted to the head.
-  */
   constructor(value: T) {
-    this.head = { data: value, next: null };
+    this.head =
+    {
+      prev: null,
+      data : value,
+      next: null
+    }
     this.tail = this.head;
   }
 
-  add(value: T) {
-    const newNode: Node<T> = { data: value, next: null };
-
-    let currNode: Node<T> = this.head;
-
-    while (currNode.next !== null) {
-      currNode = currNode.next;
+  public add(value:T){
+    const newNode:Node<T> =
+    {
+      prev: this.tail,
+      data: value,
+      next: null
     }
 
-    currNode.next = newNode;
-
+    this.tail.next = newNode;
+    newNode.prev = this.tail;
     this.tail = newNode;
   }
 
-  get(value: T): Node<T> {
-    let currNode: Node<T> = this.head;
-
-    while (currNode.next && currNode.next?.data !== value) {
-      currNode = currNode.next;
+  public get(value:T){
+    if (this.head.data === value){
+      return this.head;
+    }
+    if(this.tail.data === value){
+      return this.tail;
     }
 
-    if (!currNode.next) {
-      throw Error("we dont have this value here");
+    let ccNode = this.tail;
+    //why tail?
+    // why not?
+    
+    while(ccNode.prev && ccNode.prev.data !== value){
+      ccNode = ccNode.prev;
     }
 
-    return currNode.next;
+    if(ccNode.prev === null){
+      throw new Error(`${value} dont find here`);
+    }
 
+    return ccNode.prev;
+    
   }
 
+  
 }
