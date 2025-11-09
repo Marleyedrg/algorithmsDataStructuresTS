@@ -1,8 +1,12 @@
-import twoPointer from "./twoPointers";
+import CircularList from "./CircularList"; 
 
-//Input: arr[] = [10, 20, 35, 50], target =70
+const list: CircularList<number> = new CircularList(1);
 
-const arr: number[] = [35, 40, 45, 55, 70]
-const target: number = 70;
+list.add(2)
+list.addNextTo(3,list.tail)
 
-console.log(twoPointer(arr, target));
+list.addAsHead(-1);
+
+list.addNextTo(0,list.head)
+
+console.log(list.toArray())
