@@ -1,12 +1,8 @@
-import CircularList from "./CircularList"; 
+import Uarray from "./UnderlyingArray";
 
-const list: CircularList<number> = new CircularList(1);
+let array: Uarray<number> = new Uarray("number", 2);
 
-list.add(2)
-list.addNextTo(3,list.tail)
+console.log(array.set(0, 1))
+array.set(1, 2)
 
-list.addAsHead(-1);
-
-list.addNextTo(0,list.head)
-
-console.log(list.toArray())
+console.log(array.get(1))
