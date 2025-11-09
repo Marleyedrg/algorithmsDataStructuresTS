@@ -1,9 +1,8 @@
-import DoublyList from "./DoublyList";
+import twoPointer from "./twoPointers";
 
-let list: DoublyList<number> = new DoublyList(1);
+//Input: arr[] = [10, 20, 35, 50], target =70
 
-list.addAtStart(0)
-list.addAtEnd(2)
+const arr: number[] = [35, 40, 45, 55, 70]
+const target: number = 70;
 
-console.log(list.head.next?.next?.next?.data)
-
+console.log(twoPointer(arr, target));
