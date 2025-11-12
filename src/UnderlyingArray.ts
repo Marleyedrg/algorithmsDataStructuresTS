@@ -1,74 +1,54 @@
+import { Z_VERSION_ERROR } from "node:zlib";
 
-//it need to be abstract in the future
-export default class UnderlingArray<T extends string | number> {
 
+
+export default class UnderlingArrayNumber {
   private buffer: ArrayBuffer;
+  private view: Int32Array;
 
-  readonly capacity: number;
+  private bytesPerItem = 4;
+  // because we will use int32
+  // 32 bits / 8 bits per byte = 4 bytes
 
-  private viewNumber?: Int32Array;
-  private viewString?: Uint8Array;
+  public capacity: number;
 
-  readonly type: "string" | "number";
+  constructor(size: number) {
+    this.capacity = size;
 
-  readonly BperItem: number;
-  // case type == number 4 bytes per int32
-  // case type == string 1 byte per uint8 ASCII :)
+    //storage space in bytes in memory?
+    this.buffer = new ArrayBuffer(size * this.bytesPerItem);
 
-  constructor(type: "string" | "number", capacity: number) {
-    this.type = type;
-    this.capacity = capacity;
-
-    // define number of bytes per item
-    this.BperItem = type === "number" ? 4 : 1;
-
-    // alloc the correct space int bytes to array
-    this.buffer = new ArrayBuffer(this.BperItem * this.capacity);
-
-    // define the correct view, how the value will be read
-    if (type === "number") {
-      this.viewNumber = new Int32Array(this.buffer);
-    } else {
-      this.viewString = new Uint8Array(this.buffer);
-    }
-
+    //we need to understand it, lets take it reading 4 bytes in 4 bytes
+    this.view = new Int32Array(this.buffer)
   }
 
-  private assertType(value: any): asserts value is T {
-    if (this.type === "number" && typeof value !== "number") {
-      throw new TypeError(`Expected a number, got ${typeof value}`);
+  set(index: number, value: number) {
+
+    if (index >= this.capacity || index < 0) {
+      throw new Error(`start index 0, final index ${this.capacity - 1}`);
     }
-    if (this.type === "string" && typeof value !== "string") {
-      throw new TypeError(`Expected a string, got ${typeof value}`);
-    }
+
+    this.view[index] = value;
   }
 
-  set(index: number, value: T) {
+  get(index: number): number {
 
-    if (index >= this.capacity) {
-      throw new Error(`last index is : ${this.capacity - 1}, the passed index is ${index}`);
+    if (index >= this.capacity || index < 0) {
+      throw new Error(`start index 0, final index ${this.capacity - 1}`);
     }
 
-    this.assertType(value);
-    if (this.type === "number") {
-      const v = value as number;
-      this.viewNumber![index] = v;
-    } else {
-      const v = value as string;
-      this.viewString![index] = v.charCodeAt(0);
-    }
-
+    return this.view[index];
   }
 
-  get(index: number): T {
-    if (index >= this.capacity) {
-      throw new Error(`last index is : ${this.capacity - 1}, the passed index is ${index}`);
+  getIndex(value: number): number {
+
+    for (let i = 0; i < this.capacity; i++) {
+      if (this.view[i] === value) {
+        return i;
+      }
     }
 
-    if (this.type === "number") {
-      return this.viewNumber![index] as T;
-    } else {
-      return String.fromCharCode(this.viewString![index]) as T;
-    }
+    throw new Error(`Not found value : ${value}`)
   }
+
 }

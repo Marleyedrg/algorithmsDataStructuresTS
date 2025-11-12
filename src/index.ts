@@ -1,8 +1,5 @@
-import Uarray from "./UnderlyingArray";
+import slidWindow from "./slidWindow";
 
-let array: Uarray<number> = new Uarray("number", 2);
+let input: string = "bcabacd"
 
-console.log(array.set(0, 1))
-array.set(1, 2)
-
-console.log(array.get(1))
+slidWindow(input);
