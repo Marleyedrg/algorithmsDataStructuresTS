@@ -1,5 +1,5 @@
-import slidWindow from "./slidWindow";
+import twoPointer from "./twoPointers";
 
-let input: string = "bcabacd"
+let arr = [1,2,3,4,5];
 
-slidWindow(input);
+console.log(twoPointer(arr,8));

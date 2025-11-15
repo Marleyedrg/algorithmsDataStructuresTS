@@ -1,51 +1,53 @@
-
-
 interface currSpace {
-  lIndex: number,
-  rIndex: number,
-  r?: number,
+  leftId: number,
+  rightId: number,
+  sum: number
 }
 
+export default function twoPointers(array: number[], target: number): object {
 
-export default function twoPointer(array: number[], target: number): object {
   const size = array.length;
 
-  let curr: currSpace =
-  {
-    lIndex: 0,
-    rIndex: size - 1,
+  let curr: currSpace = {
+    leftId: 0,
+    rightId: size - 1,
+    sum: array[0] + array[size - 1]
   }
 
-  curr.r = array[curr.lIndex] + array[curr.rIndex];
+  while (curr.sum !== target) {
 
-  while (curr.r != target && curr.lIndex < size && curr.rIndex > 0 && curr.lIndex != curr.rIndex) {
 
-    if (curr.r > target) {
-      curr.rIndex -= 1;
-    }
-    if (curr.r < target) {
-      curr.lIndex += 1;
+    if (curr.sum > target) {
+      curr.rightId -= 1;
     }
 
-    curr.r = array[curr.lIndex] + array[curr.rIndex];
+    if (curr.sum < target) {
+      curr.leftId += 1;
+    }
 
-  }
+    // limits
+    if (curr.leftId === curr.rightId) {
+      break;
+    }
+    //
 
-  if (curr.r != target) {
+    curr.sum = array[curr.leftId] + array[curr.rightId];
+  };
+
+  if (curr.sum !== target) {
     throw new Error("false")
-  }
+  };
 
-  let final =
-  {
+  return {
     right: {
-      index: curr.lIndex,
-      value :array[curr.lIndex],
+      index: curr.rightId,
+      data: array[curr.rightId]
     },
     left: {
-      index: curr.rIndex,
-      value: array[curr.rIndex]
+      index: curr.leftId,
+      data: array[curr.leftId]
     },
-    target: curr.r
+    sum: array[curr.leftId] + array[curr.rightId]
   };
-  return final
-} 
+
+};
